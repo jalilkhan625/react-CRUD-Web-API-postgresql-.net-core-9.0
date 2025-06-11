@@ -11,7 +11,6 @@ This project is a **full-stack CRUD application** for managing employees. It all
 - **Frontend:** React, Material UI
 - **Backend:** ASP.NET Core Web API
 - **Database:** PostgreSQL
-- **Image Storage:** File System (Photo URL saved in the database)
 
 ---
 
@@ -34,7 +33,7 @@ employee-crud-app/
 ├── backend/                  # ASP.NET Core Web API
 │   ├── Controllers/          # API controllers
 │   ├── Models/               # Data models
-│   ├── Services/             # Business logic
+│   ├── Data/                 # Db context class
 │   └── ...                   # Other ASP.NET configuration files
 │
 ├── frontend/                 # React app
@@ -114,16 +113,6 @@ employee-crud-app/
 - Images are uploaded via the frontend and stored in a directory (e.g., `/Photos/`)
 - The backend returns a **Base64-encoded** version of the image string in JSON
 - The frontend displays the image using `src={\`data:image/jpeg;base64,...\`}`
-
----
-
-## ✅ To Do / Enhancements
-
-- Authentication & Authorization (login required to manage employees)
-- Pagination & Filtering on the table
-- Search functionality
-- Image compression and validation
-- Switch to cloud storage for images (e.g., Azure Blob Storage, AWS S3)
 
 ---
 
