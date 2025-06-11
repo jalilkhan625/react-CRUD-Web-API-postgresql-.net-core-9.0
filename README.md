@@ -1,95 +1,134 @@
-# 📘 Read Functionality – React + ASP.NET Core 9.0 Web API + PostgreSQL
+# Employee Management CRUD App
 
-Author: **User**
+## 📝 Project Overview
 
-This document explains the **Read (GET)** functionality of the CRUD system in this full-stack project:
-
-- 🧩 **Frontend**: React
-- ⚙️ **Backend**: ASP.NET Core 9.0 **Web API**
-- 🗄️ **Database**: PostgreSQL
-- 🖼️ **Images**: Stored as Base64-encoded strings (`PhotoUrl`)
+This project is a **full-stack CRUD application** for managing employees. It allows users to **create, read, update, and delete** employee records. The frontend is built with **React**, the backend is developed using **ASP.NET Core Web API**, and the data is stored in a **PostgreSQL** database.
 
 ---
 
-## 🔧 Backend – ASP.NET Core Web API
+## 📁 Tech Stack
 
-### ✅ Controller: `EmployeesController.cs`
-
-#### 📥 Get All Employees
-```csharp
-[HttpGet]
-public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
-{
-    return await _context.Employees.ToListAsync();
-}
-```
-
-#### 📥 Get Employee by ID
-```csharp
-[HttpGet("{id}")]
-public async Task<ActionResult<Employee>> GetEmployee(int id)
-{
-    var employee = await _context.Employees.FindAsync(id);
-    if (employee == null)
-    {
-        return NotFound();
-    }
-    return employee;
-}
-```
+- **Frontend:** React, Material UI
+- **Backend:** ASP.NET Core Web API
+- **Database:** PostgreSQL
+- **Image Storage:** File System (Photo URL saved in the database)
 
 ---
 
-## 💻 Frontend – React
+## ⚖️ Features
 
-### ✅ File: `EmployeeList.js`
+- Add new employees with profile photo
+- View all employees in a dynamic, responsive table
+- Edit employee details using modals
+- Delete employees with confirmation prompts
+- Success messages on all operations
+- Backend API returns JSON responses including Base64-encoded image strings
 
-```jsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+---
 
-function EmployeeList() {
-  const [employees, setEmployees] = useState([]);
+## 📦 Folder Structure
 
-  useEffect(() => {
-    axios.get('https://localhost:5001/api/employees')
-      .then(response => setEmployees(response.data))
-      .catch(error => console.error('Error fetching employees:', error));
-  }, []);
-
-  return (
-    <div>
-      <h2>Employee List</h2>
-      <ul>
-        {employees.map(emp => (
-          <li key={emp.id}>
-            <strong>{emp.name}</strong> - {emp.position} <br />
-            <img 
-              src={`data:image/png;base64,${emp.photoUrl}`} 
-              alt="Employee" 
-              width="60" 
-              style={{ marginTop: '5px' }}
-            />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default EmployeeList;
+```
+employee-crud-app/
+│
+├── backend/                  # ASP.NET Core Web API
+│   ├── Controllers/          # API controllers
+│   ├── Models/               # Data models
+│   ├── Services/             # Business logic
+│   └── ...                   # Other ASP.NET configuration files
+│
+├── frontend/                 # React app
+│   ├── components/           # React components (EmployeeTable, AddModal, etc.)
+│   ├── services/             # API interaction functions
+│   └── ...                   # Other React configuration files
+│
+└── README.md                 # Project documentation
 ```
 
 ---
 
-## ✅ Summary
+## 🧠 CRUD Functionality
 
-| Feature         | Endpoint                     | Status |
-|----------------|------------------------------|--------|
-| Get All        | `GET /api/employees`         | ✅     |
-| Get by ID      | `GET /api/employees/{id}`    | ✅     |
-| Frontend View  | `EmployeeList.js`            | ✅     |
+### ➕ Create
+
+- **Action:** Add a new employee
+- **Frontend:** Fill form fields (name, email, position, photo) in a modal
+- **Backend Endpoint:** `POST /api/employees`
+- **Storage:** Image saved in the filesystem; file path stored in the database
+
+### 📥 Read
+
+- **Action:** Fetch and view employee records in a table
+- **Frontend:** Data table with employee details and photos
+- **Backend Endpoint:** `GET /api/employees`
+- **Behavior:** Loads on page start or after create/update/delete
+
+### ✏️ Update
+
+- **Action:** Edit an existing employee
+- **Frontend:** Modal form populated with selected employee’s data
+- **Backend Endpoint:** `PUT /api/employees/{id}`
+- **Behavior:** Image can also be updated or left unchanged
+
+### ❌ Delete
+
+- **Action:** Remove an employee
+- **Frontend:** Click delete icon → confirm via prompt
+- **Backend Endpoint:** `DELETE /api/employees/{id}`
+- **Behavior:** Deletes record and associated image file
 
 ---
 
-> 📌 Make sure CORS is configured properly and both frontend & backend ports match if testing locally.
+## 🔑 API Overview
+
+| Method | Endpoint                  | Description               |
+|--------|---------------------------|---------------------------|
+| GET    | `/api/employees`          | Get all employees         |
+| GET    | `/api/employees/{id}`     | Get employee by ID        |
+| POST   | `/api/employees`          | Add new employee          |
+| PUT    | `/api/employees/{id}`     | Update existing employee  |
+| DELETE | `/api/employees/{id}`     | Delete employee by ID     |
+
+---
+
+## 💾 Setup Instructions
+
+### Backend Setup
+
+1. Navigate to the `backend/` folder
+2. Configure the PostgreSQL connection string in `appsettings.json`
+3. Run the migrations to create the database schema
+4. Start the API server
+
+### Frontend Setup
+
+1. Navigate to the `frontend/` folder
+2. Install dependencies using your preferred package manager (npm or yarn)
+3. Set the backend API base URL in the `.env` file
+4. Start the React development server
+
+---
+
+## 🖼️ Image Handling
+
+- Images are uploaded via the frontend and stored in a directory (e.g., `/Photos/`)
+- The backend returns a **Base64-encoded** version of the image string in JSON
+- The frontend displays the image using `src={\`data:image/jpeg;base64,...\`}`
+
+---
+
+## ✅ To Do / Enhancements
+
+- Authentication & Authorization (login required to manage employees)
+- Pagination & Filtering on the table
+- Search functionality
+- Image compression and validation
+- Switch to cloud storage for images (e.g., Azure Blob Storage, AWS S3)
+
+---
+
+## 📌 Notes
+
+- This project is meant for educational and portfolio use.
+- Follows clean architecture practices and separation of concerns.
+- All endpoints return consistent and structured API responses.
