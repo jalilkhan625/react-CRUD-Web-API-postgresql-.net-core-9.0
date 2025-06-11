@@ -98,6 +98,7 @@ employee-crud-app/
 2. Configure the PostgreSQL connection string in `appsettings.json`
 3. Run the migrations to create the database schema
 4. Start the API server
+5. Use ###backend branch for backend code
 
 ### Frontend Setup
 
